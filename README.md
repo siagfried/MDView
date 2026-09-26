@@ -25,7 +25,7 @@ macOS 自带的 Quick Look 不渲染 Markdown：按空格只看到原始文本�
 | 公式 | LaTeX，MathJax 3 **SVG 输出**——不需要外挂字体文件，离线可用 |
 | 图表 | Mermaid 11，` ```mermaid ` 代码块直接出图 |
 | 外观 | 明暗自适应（`prefers-color-scheme`），跟随系统 |
-| 交互 | 单窗口承载**多个文件**，`←/→` 切换（带防抖）；`⌘F` 查找；`⌘L` 钉住；**失焦即关**；`Esc` 关闭 |
+| 交互 | **一次选中多个 `.md` 双击，同一个窗口里读**，`←/→` 翻页（带防抖）；`⌘F` 查找；`⌘L` 钉住；**失焦即关**；`Esc` 关闭 |
 | 体验 | 文件被外部修改**自动重载**；窗口位置记忆；触控板缩放 |
 | 干净 | **不联网、不启动子进程、不索要「访问其他 App 的数据」授权** |
 | 体积 | App 约 7 MB；MathJax/Mermaid 只在文档确实用到时才加载 |
@@ -77,6 +77,23 @@ open MDView.app
 | `⌘C` / `⌘A` | 拷贝选中文字 / 全选 |
 | `⌘O` / `⌘W` / `⌘Q` | 打开 / 关窗 / 退出 |
 
+## 一个窗口读多个文件
+
+MDView 把「多文件」当一等公民：**在 Finder 里选中多个 `.md`（框选 / ⌘ 点选）后双击**，它们会在**同一个窗口**里打开，
+标题栏显示 `文件名 — 3/7`，用 `←` / `→` 直接翻页 —— 不必开一堆窗口，也不用反复按空格。
+
+| 行为 | 说明 |
+| --- | --- |
+| 一次开一批 | 选中多个 `.md` → 双击（或右键 → 打开方式 → MDView）；`⌘O` 多选、把文件拖到 Dock 图标同样可行 |
+| 翻页 | `←` / `→` 切换，标题栏显示 `当前序号/总数` |
+| **防连跳** | 两次翻页之间有 **250 ms 节流**，且长按方向键**只翻一次**（一次按键＝翻一个文件），不会一按就飞到底 |
+| 失焦即关 | 默认窗口在失去焦点时自动关闭（Quick Look 式的「看完就走」）；想留着就按 `⌘L` 钉住 |
+| 钉住后 | 窗口保留，且**文件被外部编辑器改动时会自动重载**——适合「在编辑器里写、旁边看排版」 |
+| 再次打开 | 已开着窗口时再双击另一个 `.md`，窗口会**切换为那个文件**（替换当前列表，保持「快看快关」的语义） |
+| 适用场景 | 对比多份文档、按顺序读一整个目录的说明文件、写文档时逐篇检查 |
+
+> 如果更希望「再打开一个文件就**追加**到当前窗口列表，而不是替换」，可以提 issue，改动很小。
+
 ## 渲染效果
 
 ![渲染验证](screenshots/render-verify.png)
@@ -105,7 +122,7 @@ open MDView.app
 
 **MDView** is a lightweight, fully-offline Markdown **reader** for macOS (Apple silicon, macOS 13+).
 
-Double-click a `.md` file and read it rendered — GFM tables, syntax-highlighted code (highlight.js), LaTeX math (MathJax, SVG output) and Mermaid diagrams. Multiple files open in one window with `←/→` navigation; `⌘F` to search; `⌘L` to pin (by default the window closes when it loses focus, Quick-Look style).
+Double-click a `.md` file and read it rendered — GFM tables, syntax-highlighted code (highlight.js), LaTeX math (MathJax, SVG output) and Mermaid diagrams. **Select several `.md` files and double-click — they all open in one window**, with debounced `←/→` paging (long-press steps one file at a time). `⌘F` to search; `⌘L` to pin (by default the window closes when it loses focus, Quick-Look style).
 
 It does **not** use Quick Look preview extensions and spawns **no subprocesses**, so macOS never asks for *"access data from other apps"* — a limitation that made child-process rendering unusable in earlier iterations.
 
