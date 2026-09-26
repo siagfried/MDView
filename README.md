@@ -32,16 +32,24 @@ macOS 自带的 Quick Look 不渲染 Markdown：按空格只看到原始文本�
 
 ## 安装
 
-### 方式一：下载 DMG（推荐）
+### 方式一：下载压缩包（推荐）
 
-1. 到 [Releases](https://github.com/siagfried/MDView/releases) 下载最新的 `MDView-x.y.z.dmg`
-2. 打开 DMG，把 **MDView.app** 拖进「应用程序」
+1. 到 [Releases](https://github.com/siagfried/MDView/releases) 下载最新的 **`MDView-x.y.z.zip`**
+2. 解压，把 **MDView.app** 拖进「应用程序」
 3. **首次打开**：在「应用程序」里对着 MDView.app **右键 → 打开 → 再点「打开」**
 
    > 本项目未做 Apple 公证（需付费开发者账号），所以首次会被 Gatekeeper 拦一次。
    > 如果连右键打开也被拒：**系统设置 → 隐私与安全性 → 找到 MDView → 点「仍要打开」**。只需一次。
-4. 想让它接管 `.md` 双击：运行 DMG 里的 **`首次打开助手.command`**（右键 → 打开），它会自动解除隔离并把 `.md` 关联到 MDView。
+4. 想让它接管 `.md` 双击：运行包内的 **`首次打开助手.command`**（右键 → 打开），它会自动解除隔离并把 `.md` 关联到 MDView。
    手动做法：右键任一 `.md` → 显示简介 → 打开方式选 MDView → **更改全部…**
+
+> ### ⚠️ 关于 DMG
+> Releases 里也提供 `MDView-x.y.z.dmg`，但 **macOS 15 起会直接拦截未公证的磁盘映像**——弹窗只给「完成 / 移到废纸篓」，**没有「打开」按钮**，所以推荐用压缩包。
+> 如果确实想用 DMG，先在终端解除隔离再打开：
+> ```sh
+> xattr -dr com.apple.quarantine ~/Downloads/MDView-1.0.0.dmg
+> open ~/Downloads/MDView-1.0.0.dmg
+> ```
 
 ### 方式二：从源码构建
 
@@ -111,6 +119,6 @@ Double-click a `.md` file and read it rendered — GFM tables, syntax-highlighte
 
 It does **not** use Quick Look preview extensions and spawns **no subprocesses**, so macOS never asks for *"access data from other apps"* — a limitation that made child-process rendering unusable in earlier iterations.
 
-Install: grab the DMG from Releases, drag to `/Applications`, then **right-click → Open** the first time (the app is not notarized). Build from source with `./build.sh`.
+Install: grab the **ZIP** from Releases (recommended — macOS 15+ blocks unnotarized DMGs), unzip, drag the app to `/Applications`, then **right-click → Open** the first time (the app is not notarized). Build from source with `./build.sh`.
 
 Licensed under **GPL-3.0** (the bundled `default.css` comes from QLMarkdown, which is GPL-3.0). See [THIRD-PARTY.md](THIRD-PARTY.md).

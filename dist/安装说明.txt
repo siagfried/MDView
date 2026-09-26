@@ -1,0 +1,28 @@
+MDView 1.0.0 —— macOS Markdown 阅读器（Apple 芯片 / macOS 13 及以上）
+
+【安装】
+ 1. 把 MDView.app 拖进「应用程序」文件夹。
+ 2. 首次打开：对着 MDView.app 右键 → 「打开」→ 弹窗里再点「打开」。
+    若仍被拦：系统设置 → 隐私与安全性 → 找到 MDView → 点「仍要打开」。
+    （本 App 未做 Apple 公证，属自签名；这一步只需做一次。）
+ 3. 想让它接管 .md 双击：运行同目录下的「首次打开助手.command」
+    （右键 → 打开）。它会把 .md 关联到 MDView 并重启 Finder。
+    也可手动：右键任一 .md → 显示简介 → 打开方式选 MDView → 更改全部…
+
+【为什么推荐 ZIP 而不是 DMG】
+ macOS 15 起会对「未公证的 DMG 磁盘映像」直接拦截，且弹窗里没有「打开」按钮；
+ 压缩包不会被这样拦，App 只需首次右键放行一次。
+
+【使用】
+ · 双击 .md 即读；多选若干 .md 后双击，可在同一窗口用 ← / → 切换
+ · ⌘F 查找　⌘L 钉住（默认切走就自动关闭）　Esc 关闭
+ · ⌘R 重新载入　⌘+ / ⌘− / ⌘0 缩放　文件被外部修改会自动重载
+
+【特性】
+ · 完全离线：渲染全部在 App 内完成，不联网、不启动子进程（因此不会反复要授权）
+ · 支持表格、代码高亮、LaTeX 公式（MathJax）、Mermaid 图表；明暗自适应
+
+【许可与源码】
+ 许可：GPL-3.0（内含 markdown-it、highlight.js、MathJax、mermaid；
+       样式表 default.css 来自 QLMarkdown，均为兼容许可，详见仓库 THIRD-PARTY.md）
+ 源码：https://github.com/siagfried/MDView
