@@ -83,16 +83,6 @@ open MDView.app
 
 *同一套资源在无头 Chrome 中的离线验证截图：行内/块级公式、Mermaid 流程图、表格、代码高亮。*
 
-## 实现要点（踩坑记录）
-
-这些是实际调试出来的结论，供后来者少走弯路：
-
-1. **渲染全程在进程内**：`WKWebView` + markdown-it + highlight.js，样式沿用 QLMarkdown 的 `default.css`。不启动任何子进程。
-2. **为什么不能用现成的 CLI 渲染器**：早期版本调用 QLMarkdown 自带的 `qlmarkdown_cli` 产出 HTML，结果 macOS 把「App 运行**非自身 bundle** 的助手可执行文件」视作访问外部代码，触发 `kTCCServiceSystemPolicyAppData`（"想访问其他 App 的数据"）授权；更麻烦的是**该授权无法对非 bundle 二进制持久化**——即使用户点过「允许」、授权行也写入了 TCC.db，**每次打开仍会再问**（改签为自有证书亦无效）。改为进程内渲染后，弹窗彻底消失。
-3. **想要授权长期有效，签名身份必须稳定**：ad-hoc 签名每次重建都会改变 cdhash，TCC 已存授权随即失配（日志里的 `Failed to match existing code requirement`）。本地开发建议用固定自签证书签名。
-4. **中文排版陷阱**：行距取"默认"（等价 `1.0`）时，中文回退字形的行框比拉丁字体高，逐行压叠；需显式设置行距（本项目的样式已处理）。
-5. **Finder 窗格只吃缩略图**：只要有任何 appex 预览扩展声明 `.md`，检查器窗格就显示页面图而非实时预览——这是设计取舍，不是 bug（参见 QLMarkdown issue #186 / #191）。
-
 ## 已知限制
 
 - 仅 **arm64**（Apple 芯片）；Intel Mac 请自行用 `swiftc -target x86_64-apple-macos13.0` 编译
