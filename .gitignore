@@ -1,0 +1,4 @@
+build-resources/
+MDView.app/
+*.dmg
+.DS_Store
